@@ -2,28 +2,20 @@
     Visionmetrix Tab
     <!-- ticket part of ticket -->
     <template if:true={hasCase}>
-
         <h5>Has Case: {caseNumber}</h5>
     </template>
 
     <!-- account part of ticket -->
-    <template if:true={hasAcct}>
-        <h5>Account: {acctName}</h5>
+    <template if:true={hasVMAcct}>
+        <h5>Account Name: {acctName}</h5>
+        <h5>Account Id: {acctId}</h5>
     </template>
     <!-- Order part of the ticket -->
     <!-- visionmetrix part of the ticket -->
-    <template if:true={hasCase}>
-        <lightning-breadcrumbs>
-            <lightning-breadcrumb
-                label="Account"
-                href="path/to/place/1"
-            >
-            </lightning-breadcrumb>
-            <lightning-breadcrumb
-                label="Order"
-                href="path/to/place/2"
-            >
-            </lightning-breadcrumb>
-        </lightning-breadcrumbs>
+    <template if:true={hasVMTkt}>
+        <h5>VM Id: {vmId}</h5>
+        <template if:true={hasNode}>
+            <h5>vm node info maybe</h5>
+        </template>
     </template>
 </template>

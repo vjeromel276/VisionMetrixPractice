@@ -85,20 +85,23 @@ public class VisionMetrixCallOut{
         // Call the wrapper class
         VisionMetrixWrappers.AddTicket ticketData = new VisionMetrixWrappers.AddTicket();
 
-        Case c = [SELECT Id, Description, Subject, NOC_Ticket_Assigment__c, Maintenance_Start__c, Maintenance_End__c
-                  FROM Case
-                  WHERE Id = :ticketId];
+        // Case c = [SELECT Id, Description, Subject, NOC_Ticket_Assigment__c, Maintenance_Start__c, Maintenance_End__c
+        //           FROM Case
+        //           WHERE Id = :ticketId];
 
+        Case c = [SELECT Id, Related_Service_Order__r.Id, Related_Service_Order__r.Node__c,
+                    Description, Subject, NOC_Ticket_Assigment__c, Maintenance_Start__c, Maintenance_End__c
+                    FROM Case
+                    WHERE Id = :ticketId
+                    LIMIT 1];
+
+        Id serviceOrderId = c.Related_Service_Order__r.Id;
+
+        //~ node id aEt3g000000XZNkCAO, aEt6g000000015CCAQ
+        //~ ticket id 5003g00000B5Z3FAAV
         List<Node__c> nodeList = [SELECT Id, Name
                                   FROM Node__c
-                                  WHERE Id IN (SELECT Related_Service_Order__r.Node__c
-                                               FROM Case
-                                               WHERE Id = :ticketId)];
-        //~ node id aEt3g000000XZNkCAO, aEt6g000000015CCAQ
-        // Node__c n1 = new Node__c(Id='aEt3g000000XZNkCAO');
-        // Node__c n2 = new Node__c(Id='aEt6g000000015CCAQ');
-        // nodeList.add(n1);
-        // nodeList.add(n2);
+                                  WHERE Service_Order_Agreement__c = :serviceOrderId];
 
         if (nodeList != null){
 
